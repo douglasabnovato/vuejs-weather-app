@@ -21,40 +21,40 @@
 </template>
 
 <script>
-    const API_KEY = "d4ba1a8fb0a181f0e59a6f3f60abf6a5";
+    const API_KEY = "6e98fe8ada9f7c139d6d4f12ea78b0ec";
     const API_URI = `http://api.openweathermap.org/data/2.5/weather?appid=${API_KEY}&units=metric`;
     const mountLatLntQuery = navigator => {
-    return new Promise(resolve => {
-        navigator.geolocation.getCurrentPosition(position => {
-        const { coords } = position;
-        resolve(`&lat=${coords.latitude}&lon=${coords.longitude}`);
+        return new Promise(resolve => {
+            navigator.geolocation.getCurrentPosition(position => {
+            const { coords } = position;
+            resolve(`&lat=${coords.latitude}&lon=${coords.longitude}`);
+            });
         });
-    });
     };
     export default {
-    name: "App",
-    data: () => ({
-        isLoading: false,
-        temperature: {
-        max: "",
-        min: "",
-        current: ""
+        name: "App",
+        data: () => ({
+            isLoading: false,
+            temperature: {
+            max: "",
+            min: "",
+            current: ""
+            }
+        }),
+        methods: {
+            loadWeather() {
+            this.isLoading = true;
+            mountLatLntQuery(window.navigator)
+                .then(query => fetch(API_URI + query))
+                .then(res => res.json())
+                .then(json => {
+                this.temperature.current = json.main.temp.toFixed(0);
+                this.temperature.max = json.main.temp_max;
+                this.temperature.min = json.main.temp_min;
+                this.isLoading = false;
+                });
+            }
         }
-    }),
-    methods: {
-        loadWeather() {
-        this.isLoading = true;
-        mountLatLntQuery(window.navigator)
-            .then(query => fetch(API_URI + query))
-            .then(res => res.json())
-            .then(json => {
-            this.temperature.current = json.main.temp.toFixed(0);
-            this.temperature.max = json.main.temp_max;
-            this.temperature.min = json.main.temp_min;
-            this.isLoading = false;
-            });
-        }
-    }
     };
 </script>
 
@@ -65,25 +65,29 @@
   box-sizing: border-box;
   outline: none;
 }
-html,
-body {
+
+html, body {
   width: 100%;
   height: 100%;
   font-family: Helvetica;
 }
+
 .appear-enter-active,
 .appear-leave-active {
   transition: all 0.9s cubic-bezier(0.17, 1.03, 0.23, 1.25);
 }
+
 .appear-enter,
 .appear-leave-to {
   transform: translateY(-10px);
 }
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
+
 .loading {
   position: absolute;
   z-index: 9999;
@@ -94,6 +98,7 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .loading-spinner {
   border: 8px solid rgb(255, 255, 255);
   border-radius: 50%;
@@ -102,6 +107,7 @@ body {
   height: 50px;
   animation: spin 0.2s linear infinite;
 }
+
 .container {
   width: 100%;
   height: 100%;
@@ -111,6 +117,7 @@ body {
   align-items: center;
   background-color: #f4f4f4;
 }
+
 .container-content {
   width: 320px;
   margin-top: 50px;
@@ -118,17 +125,20 @@ body {
   flex-direction: column;
   justify-content: center;
 }
+
 .content-temp {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
 }
+
 .content-temp-current {
   font-size: 30px;
   color: teal;
   font-weight: 700;
 }
+
 .content-temp-minmax {
   display: flex;
   flex-direction: column;
@@ -137,11 +147,13 @@ body {
   color: #ccc;
   font-weight: 300;
 }
+
 .title {
   position: relative;
   color: lightcoral;
   font-size: 50px;
 }
+
 .title > span {
   position: absolute;
   font-size: 15px;
@@ -153,6 +165,7 @@ body {
   border-radius: 4px;
   font-weight: 100;
 }
+
 .container-content .btn {
   border: none;
   color: white;
@@ -163,7 +176,9 @@ body {
   background-color: teal;
   font-weight: 700;
   transition: all 0.3s ease-in;
+  margin-bottom: 15px;
 }
+
 .container-content .btn:hover {
   box-shadow: 1px 1px 30px 4px #ccc;
 }
