@@ -5,6 +5,7 @@
         </div>
         <h1 class="title">Weather App<span> made with Vue.js</span></h1>
         <div class="container-content">
+           
             <div class="content-temp">
                 <span class="content-temp-current">17 ºC</span>
                 <div class="content-temp-minmax">
@@ -12,7 +13,8 @@
                     <p>Max: 28 ºC</p>
                 </div>
             </div>
-        </div>
+            <button class="btn">Load Weather</button>
+        </div>        
         <h5>@douglasabnovato</h5>
     </div>
 </template>
