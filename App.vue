@@ -99,4 +99,8 @@
         margin-bottom: 25px;
     }
 
+    .content-temp-current{
+        font-size: 30px;
+    }
+
 </style>
